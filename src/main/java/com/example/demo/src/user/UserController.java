@@ -137,8 +137,8 @@ public class UserController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             //같다면 유저네임 변경
-            PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName());
-            userService.modifyUserName(patchUserReq);
+            PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName(),user.getNickname(),user.getUserName(),user.getUserName());
+            userService.modifyUserInfo(patchUserReq);
 
             String result = "";
         return new BaseResponse<>(result);

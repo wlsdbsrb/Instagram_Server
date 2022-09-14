@@ -10,4 +10,7 @@ import lombok.Setter;
 public class PatchUserReq {
     private int userIdx;
     private String userName;
+    private String nickname;
+    private String introduce;
+    private String email;
 }
