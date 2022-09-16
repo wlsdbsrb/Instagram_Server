@@ -13,4 +13,5 @@ public class PatchUserReq {
     private String nickname;
     private String introduce;
     private String email;
+
 }

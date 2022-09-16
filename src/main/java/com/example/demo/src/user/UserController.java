@@ -128,7 +128,7 @@ public class UserController {
      */
     @ResponseBody
     @PatchMapping("/{userIdx}")
-    public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user){
+    public BaseResponse<String> modifyUserInfo(@PathVariable("userIdx") int userIdx, @RequestBody User user){
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
@@ -137,7 +137,7 @@ public class UserController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             //같다면 유저네임 변경
-            PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName(),user.getNickname(),user.getUserName(),user.getUserName());
+            PatchUserReq patchUserReq = new PatchUserReq(user.getUserIdx(),user.getUserName(),user.getNickname(),user.getUserName(),user.getUserName());
             userService.modifyUserInfo(patchUserReq);
 
             String result = "";

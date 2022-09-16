@@ -59,8 +59,9 @@ public class UserDao {
     
 
     public int createUser(PostUserReq postUserReq){
-        String createUserQuery = "insert into user (userName, ID, password, email) VALUES (?,?,?,?)";
-        Object[] createUserParams = new Object[]{postUserReq.getUserName(), postUserReq.getID(), postUserReq.getPassword(), postUserReq.getEmail()};
+        String createUserQuery = "insert into user (userName, ID, password, email,phone,birth,nickname) VALUES (?,?,?,?,?,?,?)";
+        Object[] createUserParams = new Object[]{postUserReq.getUserName(), postUserReq.getID(), postUserReq.getPassword(), postUserReq.getEmail()
+        ,postUserReq.getNickname(),postUserReq.getBirth(),postUserReq.getPhone()};
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
         String lastInserIdQuery = "select last_insert_id()";
@@ -78,13 +79,14 @@ public class UserDao {
 
     public int modifyUserInfo(PatchUserReq patchUserReq){
         String modifyUserInfoQuery = "update user set userName=?, nickname=?, introduce=?, email= ? where userIdx = ? ";
-        Object[] modifyUserInfoParams = new Object[]{patchUserReq.getUserName(), patchUserReq.getNickname(), patchUserReq.getIntroduce(), patchUserReq.getEmail(), patchUserReq.getUserIdx()};
+        Object[] modifyUserInfoParams = new Object[]{patchUserReq.getUserName(), patchUserReq.getNickname(),
+                patchUserReq.getIntroduce(), patchUserReq.getEmail(), patchUserReq.getUserIdx()};
 
         return this.jdbcTemplate.update(modifyUserInfoQuery,modifyUserInfoParams);
     }
 
     public User getPwd(PostLoginReq postLoginReq){
-        String getPwdQuery = "select userIdx, password,email,userName,ID from user where ID = ?";
+        String getPwdQuery = "select userIdx, password,email,userName,ID,nickname from user where ID = ?";
         String getPwdParams = postLoginReq.getID();
 
         return this.jdbcTemplate.queryForObject(getPwdQuery,
@@ -93,7 +95,8 @@ public class UserDao {
                         rs.getString("ID"),
                         rs.getString("userName"),
                         rs.getString("password"),
-                        rs.getString("email")
+                        rs.getString("email"),
+                        rs.getString("nickname")
                 ),
                 getPwdParams
                 );
