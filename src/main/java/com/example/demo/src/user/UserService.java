@@ -78,4 +78,15 @@ public class UserService {
             throw  new BaseException(DATABASE_ERROR);
         }
     }
+    public void modifyPassword(PatchPasswordReq patchPasswordReq) throws BaseException{
+        try {
+            int result = userDao.modifyPassword(patchPasswordReq);
+            if(result==0){
+                throw new BaseException(MODIFY_FAIL_USERINFO);
+            }
+        }
+        catch (Exception exception){
+            throw  new BaseException(DATABASE_ERROR);
+        }
+    }
 }

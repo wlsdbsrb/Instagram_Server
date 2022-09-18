@@ -170,6 +170,32 @@ public class UserController {
         }
 
     }
+    /**
+     * 비밀번호변경 API
+     * [PATCH] /users/:userIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/password/{userIdx}")
+    public BaseResponse<String> modifyPassword(@PathVariable("userIdx") int userIdx, @RequestBody User user){
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            if(userIdx!=userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            PatchPasswordReq patchPasswordReq= new PatchPasswordReq(user.getUserIdx(),user.getPassword());
+            userService.modifyPassword(patchPasswordReq);
+
+            String result="수정 성공";
+            return new BaseResponse<>(result);
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+
+    }
 
 
 }
+
+

@@ -90,6 +90,13 @@ public class UserDao {
 
         return  this.jdbcTemplate.update(modifyProfileImageQuery,modifyProfileImageParams);
     }
+    public int modifyPassword(PatchPasswordReq patchPasswordReq){
+        String modifyPasswordQuery = "update user set password=? where userIdx = ?";
+        Object[] modifyPasswordParams = new Object[]{patchPasswordReq.getPassword(), patchPasswordReq.getUserIdx()};
+
+        return  this.jdbcTemplate.update(modifyPasswordQuery,modifyPasswordParams);
+    }
+
 
     public User getPwd(PostLoginReq postLoginReq){
         String getPwdQuery = "select userIdx, password,email,userName,ID,nickname,profileimage from user where ID = ?";
