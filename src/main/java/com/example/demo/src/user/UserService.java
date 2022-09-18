@@ -61,10 +61,21 @@ public class UserService {
         try{
             int result = userDao.modifyUserInfo(patchUserReq);
             if(result == 0){
-                throw new BaseException(MODIFY_FAIL_USERNAME);
+                throw new BaseException(MODIFY_FAIL_USERINFO);
             }
         } catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public void modifyProfileImage(PatchProfileImageReq patchProfileImageReq) throws BaseException{
+        try {
+            int result = userDao.modifyProfileImage(patchProfileImageReq);
+            if(result==0){
+                throw new BaseException(MODIFY_FAIL_USERINFO);
+            }
+        }
+        catch (Exception exception){
+            throw  new BaseException(DATABASE_ERROR);
         }
     }
 }

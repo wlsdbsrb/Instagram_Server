@@ -84,9 +84,15 @@ public class UserDao {
 
         return this.jdbcTemplate.update(modifyUserInfoQuery,modifyUserInfoParams);
     }
+    public int modifyProfileImage(PatchProfileImageReq patchProfileImageReq){
+        String modifyProfileImageQuery = "update user set profileImage=? where userIdx = ?";
+        Object[] modifyProfileImageParams = new Object[]{patchProfileImageReq.getProfileImage()};
+
+        return  this.jdbcTemplate.update(modifyProfileImageQuery,modifyProfileImageParams);
+    }
 
     public User getPwd(PostLoginReq postLoginReq){
-        String getPwdQuery = "select userIdx, password,email,userName,ID,nickname from user where ID = ?";
+        String getPwdQuery = "select userIdx, password,email,userName,ID,nickname,profileimage from user where ID = ?";
         String getPwdParams = postLoginReq.getID();
 
         return this.jdbcTemplate.queryForObject(getPwdQuery,
@@ -96,7 +102,8 @@ public class UserDao {
                         rs.getString("userName"),
                         rs.getString("password"),
                         rs.getString("email"),
-                        rs.getString("nickname")
+                        rs.getString("nickname"),
+                        rs.getString("profileimage")
                 ),
                 getPwdParams
                 );

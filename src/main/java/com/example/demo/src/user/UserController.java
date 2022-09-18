@@ -127,7 +127,7 @@ public class UserController {
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("/{userIdx}")
+    @PatchMapping("/profile/{userIdx}")
     public BaseResponse<String> modifyUserInfo(@PathVariable("userIdx") int userIdx, @RequestBody User user){
         try {
             //jwt에서 idx 추출.
@@ -140,11 +140,35 @@ public class UserController {
             PatchUserReq patchUserReq = new PatchUserReq(user.getUserIdx(),user.getUserName(),user.getNickname(),user.getUserName(),user.getUserName());
             userService.modifyUserInfo(patchUserReq);
 
-            String result = "";
+            String result = "수정 성공";
         return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
+    }
+    /**
+     * 유저프로필이미지변경 API
+     * [PATCH] /users/:userIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/profileImg/{userIdx}")
+    public BaseResponse<String> modifyProfileImage(@PathVariable("userIdx") int userIdx, @RequestBody User user){
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            if(userIdx!=userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            PatchProfileImageReq patchProfileImageReq= new PatchProfileImageReq(user.getUserIdx(),user.getProfileImage());
+            userService.modifyProfileImage(patchProfileImageReq);
+
+            String result="수정 성공";
+            return new BaseResponse<>(result);
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+
     }
 
 
