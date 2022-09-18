@@ -86,7 +86,7 @@ public class UserDao {
     }
     public int modifyProfileImage(PatchProfileImageReq patchProfileImageReq){
         String modifyProfileImageQuery = "update user set profileImage=? where userIdx = ?";
-        Object[] modifyProfileImageParams = new Object[]{patchProfileImageReq.getProfileImage()};
+        Object[] modifyProfileImageParams = new Object[]{patchProfileImageReq.getProfileImage(), patchProfileImageReq.getUserIdx()};
 
         return  this.jdbcTemplate.update(modifyProfileImageQuery,modifyProfileImageParams);
     }
