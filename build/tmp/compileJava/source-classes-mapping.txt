@@ -36,12 +36,12 @@ com/example/demo/src/user/model/PatchProfileImageReq.java
  com.example.demo.src.user.model.PatchProfileImageReq
 com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
+com/example/demo/src/user/model/PatchPasswordReq.java
+ com.example.demo.src.user.model.PatchPasswordReq
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
-com/example/demo/src/user/model/PatchPasswordReq.java
- com.example.demo.src.user.model.PatchPasswordReq
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
 com/example/demo/src/user/UserProvider.java

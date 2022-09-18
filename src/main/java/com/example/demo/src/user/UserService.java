@@ -79,6 +79,14 @@ public class UserService {
         }
     }
     public void modifyPassword(PatchPasswordReq patchPasswordReq) throws BaseException{
+        String pwd;
+        try {
+            pwd = new SHA256().encrypt(patchPasswordReq.getPassword());
+            patchPasswordReq.setPassword(pwd);
+        }catch (Exception ignored){
+            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
+        }
+
         try {
             int result = userDao.modifyPassword(patchPasswordReq);
             if(result==0){
