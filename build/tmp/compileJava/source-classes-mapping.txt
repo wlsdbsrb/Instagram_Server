@@ -36,10 +36,14 @@ com/example/demo/src/user/model/PatchProfileImageReq.java
  com.example.demo.src.user.model.PatchProfileImageReq
 com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
-com/example/demo/src/user/UserDao.java
- com.example.demo.src.user.UserDao
 com/example/demo/src/user/model/PostUserReq.java
  com.example.demo.src.user.model.PostUserReq
+com/example/demo/src/user/model/PostUserFollowReq.java
+ com.example.demo.src.user.model.PostUserFollowReq
+com/example/demo/src/user/model/PostUserFollowRes.java
+ com.example.demo.src.user.model.PostUserFollowRes
+com/example/demo/src/user/UserDao.java
+ com.example.demo.src.user.UserDao
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
 com/example/demo/src/user/UserController.java
