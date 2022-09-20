@@ -60,6 +60,15 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    public GetUserProfileRes getUserProfile(int userIdx) throws BaseException{
+        try {
+            GetUserProfileRes getUserProfileRes = userDao.getUserProfile(userIdx);
+
+            return getUserProfileRes;
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     public int checkEmail(String email) throws BaseException{
         try{

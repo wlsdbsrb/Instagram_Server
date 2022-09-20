@@ -56,6 +56,32 @@ public class UserDao {
                         rs.getString("password")),
                 getUserParams);
     }
+    public GetUserProfileRes getUserProfile(int userIdX){
+        String getUserProfileQuery = "select `user`.userIdx, " +
+                "       `user`.userName, " +
+                "       `user`.profileImage, " +
+                "       `user`.nickname, " +
+                "       `user`.introduce, " +
+                "       `user`.email, " +
+                "       (select count(`follow`.follower) from follow where `follow`.follower = ?) as follower, " +
+                "       (select count(`follow`.following) from follow where `follow`.following = ?) as following " +
+                "from `user`" +
+                "         left join `follow` on `follow`.following = `user`.userIdx " +
+                "where `user`.userIdx = ? ";
+        int getUserProfileParams = userIdX;
+
+        return this.jdbcTemplate.queryForObject(getUserProfileQuery,
+                (rs, rowNum) -> new GetUserProfileRes(
+                        rs.getInt("userIdx"),
+                        rs.getString("userName"),
+                        rs.getString("profileImage"),
+                        rs.getString("nickname"),
+                        rs.getString("introduce"),
+                        rs.getString("email"),
+                        rs.getInt("follower"),
+                        rs.getInt("following")),
+                getUserProfileParams, getUserProfileParams, getUserProfileParams);
+    }
     
 
     public int createUser(PostUserReq postUserReq){

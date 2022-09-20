@@ -78,6 +78,29 @@ public class UserController {
         }
 
     }
+    /**
+     * 회원 프로필 조회 API
+     * [GET] /users/userProfile/:userIdx
+     * @return BaseResponse<GetUserRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/userProfile/{userIdx}") // (GET) 127.0.0.1:9000/app/users/:userIdx
+    public BaseResponse<GetUserProfileRes> getUserProfile(@PathVariable("userIdx") int userIdx) {
+        // Get Users
+        try{
+            GetUserProfileRes getUserProfileRes = userProvider.getUserProfile(userIdx);
+            return new BaseResponse<GetUserProfileRes>(getUserProfileRes);
+        }catch(BaseException exception){
+            return new BaseResponse<GetUserProfileRes>((exception.getStatus()));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+
+    }
 
     /**
      * 회원가입 API
@@ -123,11 +146,11 @@ public class UserController {
 
     /**
      * 유저정보변경 API
-     * [PATCH] /users/:userIdx
+     * [PATCH] /users/profileInfo/:userIdx
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("/profile/{userIdx}")
+    @PatchMapping("/profileInfo/{userIdx}")
     public BaseResponse<String> modifyUserInfo(@PathVariable("userIdx") int userIdx, @RequestBody User user){
         try {
             //jwt에서 idx 추출.
@@ -148,7 +171,7 @@ public class UserController {
     }
     /**
      * 유저프로필이미지변경 API
-     * [PATCH] /users/:userIdx
+     * [PATCH] /users/profileImg/:userIdx
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -172,7 +195,7 @@ public class UserController {
     }
     /**
      * 비밀번호변경 API
-     * [PATCH] /users/:userIdx
+     * [PATCH] /users/password/:userIdx
      * @return BaseResponse<String>
      */
     @ResponseBody
