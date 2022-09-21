@@ -56,19 +56,22 @@ public class UserDao {
                         rs.getString("password")),
                 getUserParams);
     }
-    public GetUserProfileRes getUserProfile(int userIdX){
-        String getUserProfileQuery = "select `user`.userIdx, " +
-                "       `user`.userName, " +
-                "       `user`.profileImage, " +
-                "       `user`.nickname, " +
-                "       `user`.introduce, " +
-                "       `user`.email, " +
-                "       (select count(`follow`.follower) from follow where `follow`.follower = ?) as follower, " +
-                "       (select count(`follow`.following) from follow where `follow`.following = ?) as following " +
-                "from `user`" +
-                "         left join `follow` on `follow`.following = `user`.userIdx " +
-                "where `user`.userIdx = ? ";
-        int getUserProfileParams = userIdX;
+    public GetUserProfileRes getUserProfile(int userIdx){
+        String getUserProfileQuery = "select user.userIdx, " +
+                "user.profileImage, " +
+                "user.userName, " +
+                "user.nickname, " +
+                "user.introduce, " +
+                "user.email, " +
+                "(select count(follow.follower) from follow where follow.follower = ?) as follower, " +
+                "(select count(follow.following) from follow where follow.following =?) as following, " +
+                "(select count(post.userIdx) from post where post.userIdx = ?) as post " +
+                "from user " +
+                "left join post on post.userIdx = user.userIdx "+
+                "left join follow on follow.follower = user.userIdx and follow.following = user.userIdx "+
+                "where user.userIdx=? ORDER BY post.createdAt asc limit 1";
+
+        int getUserProfileParams = userIdx;
 
         return this.jdbcTemplate.queryForObject(getUserProfileQuery,
                 (rs, rowNum) -> new GetUserProfileRes(
@@ -79,8 +82,10 @@ public class UserDao {
                         rs.getString("introduce"),
                         rs.getString("email"),
                         rs.getInt("follower"),
-                        rs.getInt("following")),
-                getUserProfileParams, getUserProfileParams, getUserProfileParams);
+                        rs.getInt("following"),
+                        rs.getInt("post")
+                ),
+                getUserProfileParams,getUserProfileParams,getUserProfileParams,getUserProfileParams);
     }
     
 

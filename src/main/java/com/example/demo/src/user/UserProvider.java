@@ -66,6 +66,7 @@ public class UserProvider {
 
             return getUserProfileRes;
         }catch (Exception exception){
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }

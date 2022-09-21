@@ -17,4 +17,5 @@ public class GetUserProfileRes {
     private String email;
     private int follower;
     private int following;
+    private int post;
 }
