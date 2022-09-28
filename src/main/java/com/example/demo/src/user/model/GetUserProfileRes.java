@@ -15,7 +15,7 @@ public class GetUserProfileRes {
     private String nickname;
     private String introduce;
     private String email;
-    private int follower;
-    private int following;
+    private int followReceiver;
+    private int followSender;
     private int post;
 }

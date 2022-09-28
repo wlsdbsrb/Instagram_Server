@@ -57,21 +57,23 @@ public class UserDao {
                 getUserParams);
     }
     public GetUserProfileRes getUserProfile(int userIdx){
-        String getUserProfileQuery = "select user.userIdx, " +
-                "user.profileImage, " +
-                "user.userName, " +
-                "user.nickname, " +
-                "user.introduce, " +
-                "user.email, " +
-                "(select count(follow.follower) from follow where follow.follower = ?) as follower, " +
-                "(select count(follow.following) from follow where follow.following =?) as following, " +
-                "(select count(post.userIdx) from post where post.userIdx = ?) as post " +
-                "from user " +
-                "left join post on post.userIdx = user.userIdx "+
-                "left join follow on follow.follower = user.userIdx and follow.following = user.userIdx "+
-                "where user.userIdx=? ORDER BY post.createdAt asc limit 1";
+        String getUserProfileQuery = "select user.userIdx,  " +
+                "                user.profileImage, " +
+                "                user.userName, " +
+                "                user.nickname, " +
+                "                user.introduce, " +
+                "                user.email, " +
+                "                (select count(follow.followSender) from follow where follow.followSender = user.userIdx) as followSender, " +
+                "                (select count(follow.followReceiver) from follow where follow.followReceiver = user.userIdx) as followReceiver, " +
+                "                count(post.userIdx) as post " +
+                "                from user " +
+                "                left join post on post.userIdx = user.userIdx" +
+                "                where user.userIdx=? ";
 
         int getUserProfileParams = userIdx;
+
+
+
 
         return this.jdbcTemplate.queryForObject(getUserProfileQuery,
                 (rs, rowNum) -> new GetUserProfileRes(
@@ -81,12 +83,13 @@ public class UserDao {
                         rs.getString("nickname"),
                         rs.getString("introduce"),
                         rs.getString("email"),
-                        rs.getInt("follower"),
-                        rs.getInt("following"),
-                        rs.getInt("post")
-                ),
-                getUserProfileParams,getUserProfileParams,getUserProfileParams,getUserProfileParams);
+                        rs.getInt("followReceiver"),
+                        rs.getInt("followSender"),
+                        rs.getInt("post")),
+
+                getUserProfileParams);
     }
+
     
 
     public int createUser(PostUserReq postUserReq){
@@ -98,6 +101,7 @@ public class UserDao {
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
+
 
     public int checkEmail(String email){
         String checkEmailQuery = "select exists(select email from user where email = ?)";
